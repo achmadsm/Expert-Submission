@@ -6,18 +6,17 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.example.submission.core.data.Resource
 import com.example.submission.core.ui.MovieAdapter
-import com.example.submission.core.ui.ViewModelFactory
 import com.example.submission.databinding.ActivityMainBinding
 import com.example.submission.detail.DetailMovieActivity
 import com.example.submission.favorite.FavoriteActivity
 import com.example.submission.home.HomeViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var homeViewModel: HomeViewModel
+    private val homeViewModel: HomeViewModel by viewModel()
 
     private lateinit var binding: ActivityMainBinding
 
@@ -32,9 +31,6 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra(DetailMovieActivity.EXTRA_DATA, selectedData)
             startActivity(intent)
         }
-
-        val factory = ViewModelFactory.getInstance(this)
-        homeViewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
 
         homeViewModel.movie.observe(this) { movie ->
             if (movie != null) {

@@ -4,7 +4,7 @@ import com.example.submission.core.data.source.local.entity.MovieEntity
 import com.example.submission.core.data.source.local.room.MovieDao
 import kotlinx.coroutines.flow.Flow
 
-class LocalDataSource private constructor(private val movieDao: MovieDao) {
+class LocalDataSource(private val movieDao: MovieDao) {
     fun getAllMovie(): Flow<List<MovieEntity>> = movieDao.getAllMovie()
 
     fun getFavoriteMovie(): Flow<List<MovieEntity>> = movieDao.getFavoriteMovie()
@@ -14,14 +14,5 @@ class LocalDataSource private constructor(private val movieDao: MovieDao) {
     fun setFavoriteMovie(movie: MovieEntity, newState: Boolean) {
         movie.isFavorite = newState
         movieDao.updateFavoriteMovie(movie)
-    }
-
-    companion object {
-        private var instance: LocalDataSource? = null
-
-        fun getInstance(movieDao: MovieDao): LocalDataSource =
-            instance ?: synchronized(this) {
-                instance ?: LocalDataSource(movieDao)
-            }
     }
 }

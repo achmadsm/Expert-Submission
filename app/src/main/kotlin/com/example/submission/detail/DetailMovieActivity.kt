@@ -5,17 +5,17 @@ import android.os.Build.VERSION
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.submission.R
 import com.example.submission.core.domain.model.Movie
-import com.example.submission.core.ui.ViewModelFactory
 import com.example.submission.databinding.ActivityDetailMovieBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailMovieActivity : AppCompatActivity() {
 
-    private lateinit var detailMovieViewModel: DetailMovieViewModel
+    private val detailMovieViewModel: DetailMovieViewModel by viewModel()
+
     private lateinit var binding: ActivityDetailMovieBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,9 +24,6 @@ class DetailMovieActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
-
-        val factory = ViewModelFactory.getInstance(this)
-        detailMovieViewModel = ViewModelProvider(this, factory)[DetailMovieViewModel::class.java]
 
         val detailMovie = if (VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra(EXTRA_DATA, Movie::class.java)
