@@ -61,14 +61,14 @@ class DetailMovieActivity : AppCompatActivity() {
             binding.fab.setImageDrawable(
                 ContextCompat.getDrawable(
                     this,
-                    R.drawable.ic_favorite_red
+                    R.drawable.ic_favorite_white
                 )
             )
         } else {
             binding.fab.setImageDrawable(
                 ContextCompat.getDrawable(
                     this,
-                    R.drawable.ic_favorite_white
+                    R.drawable.ic_not_favorite_white
                 )
             )
         }
