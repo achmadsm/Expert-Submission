@@ -1,9 +1,9 @@
 package com.example.submission
 
 import android.app.Application
-import com.example.submission.core.di.databaseModule
-import com.example.submission.core.di.networkModule
-import com.example.submission.core.di.repositoryModule
+import com.example.core.di.databaseModule
+import com.example.core.di.networkModule
+import com.example.core.di.repositoryModule
 import com.example.submission.di.useCaseModule
 import com.example.submission.di.viewModelModule
 import org.koin.android.ext.koin.androidContext

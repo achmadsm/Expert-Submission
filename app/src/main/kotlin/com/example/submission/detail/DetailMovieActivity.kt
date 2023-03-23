@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.core.domain.model.Movie
 import com.example.submission.R
-import com.example.submission.core.domain.model.Movie
 import com.example.submission.databinding.ActivityDetailMovieBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

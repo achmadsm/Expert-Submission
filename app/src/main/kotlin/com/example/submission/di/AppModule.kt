@@ -1,7 +1,7 @@
 package com.example.submission.di
 
-import com.example.submission.core.domain.usecase.MovieInteractor
-import com.example.submission.core.domain.usecase.MovieUseCase
+import com.example.core.domain.usecase.MovieInteractor
+import com.example.core.domain.usecase.MovieUseCase
 import com.example.submission.detail.DetailMovieViewModel
 import com.example.submission.favorite.FavoriteViewModel
 import com.example.submission.home.HomeViewModel
