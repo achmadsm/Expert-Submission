@@ -3,6 +3,7 @@ package com.example.core.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -12,14 +13,15 @@ import com.example.core.domain.model.Movie
 
 class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ListViewHolder>() {
 
-    private var listData = ArrayList<Movie>()
+    private var listMovies = ArrayList<Movie>()
     var onItemClick: ((Movie) -> Unit)? = null
 
-    fun setData(newListData: List<Movie>?) {
-        if (newListData == null) return
-        listData.clear()
-        listData.addAll(newListData)
-        notifyDataSetChanged()
+    fun setListMovies(listMovies: List<Movie>) {
+        val diffCallback = MovieDiffCallback(this.listMovies, listMovies)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        this.listMovies.clear()
+        this.listMovies.addAll(listMovies)
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieAdapter.ListViewHolder =
@@ -28,11 +30,11 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ListViewHolder>() {
         )
 
     override fun onBindViewHolder(holder: MovieAdapter.ListViewHolder, position: Int) {
-        val data = listData[position]
+        val data = listMovies[position]
         holder.bind(data)
     }
 
-    override fun getItemCount(): Int = listData.size
+    override fun getItemCount(): Int = listMovies.size
 
     inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ItemListMovieBinding.bind(itemView)
@@ -49,7 +51,7 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ListViewHolder>() {
 
         init {
             binding.root.setOnClickListener {
-                onItemClick?.invoke(listData[adapterPosition])
+                onItemClick?.invoke(listMovies[adapterPosition])
             }
         }
     }

@@ -1,7 +1,6 @@
 package com.example.submission.detail
 
 import android.os.Build
-import android.os.Build.VERSION
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -25,10 +24,11 @@ class DetailMovieActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        val detailMovie = if (VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableExtra(EXTRA_DATA, Movie::class.java)
+        val detailMovie = if (Build.VERSION.SDK_INT >= 33) {
+            intent.getParcelableExtra(EXTRA_DATA, Movie::class.java) as Movie
         } else {
-            intent.getParcelableExtra<Movie>(EXTRA_DATA)
+            @Suppress("DEPRECATION")
+            intent.getParcelableExtra<Movie>(EXTRA_DATA) as Movie
         }
         showDetailMovie(detailMovie)
     }
