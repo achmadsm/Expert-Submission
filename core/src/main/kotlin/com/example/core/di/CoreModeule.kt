@@ -1,7 +1,7 @@
 package com.example.core.di
 
 import androidx.room.Room
-import androidx.viewbinding.BuildConfig
+import com.example.core.BuildConfig
 import com.example.core.data.MovieRepository
 import com.example.core.data.source.local.LocalDataSource
 import com.example.core.data.source.local.room.MovieDatabase
