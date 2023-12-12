@@ -5,12 +5,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.core.ui.MovieAdapter
 import com.example.submission.R
 import com.example.submission.databinding.ActivityMainBinding
 import com.example.submission.detail.DetailMovieActivity
-import com.example.submission.favorite.FavoriteActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -37,8 +37,9 @@ class MainActivity : AppCompatActivity() {
                     is com.example.core.data.Resource.Loading -> showLoading(true)
                     is com.example.core.data.Resource.Success -> {
                         showLoading(false)
-                        movieAdapter.setData(movie.data)
+                        movie.data?.let { movieAdapter.setListMovies(it) }
                     }
+
                     is com.example.core.data.Resource.Error -> {
                         showLoading(false)
                         binding.viewError.root.visibility = View.VISIBLE
@@ -62,13 +63,20 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_favorite -> {
-                Intent(this, FavoriteActivity::class.java).also {
-                    startActivity(it)
+            R.id.action_favorite ->
+                try {
+                    moveToFavoriteActivity()
+                } catch (e: Exception) {
+                    Toast.makeText(this, "Module not found", Toast.LENGTH_SHORT).show()
                 }
-            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun moveToFavoriteActivity() {
+        Intent(this, Class.forName("com.achmadsm.favorite.FavoriteActivity")).also {
+            startActivity(it)
+        }
     }
 
     private fun showLoading(isLoading: Boolean) {
