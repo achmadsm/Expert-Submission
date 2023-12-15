@@ -1,9 +1,12 @@
 package com.example.core.data.source.remote.network
 
+import com.example.core.BuildConfig
 import com.example.core.data.source.remote.response.ListMovieResponse
 import retrofit2.http.GET
 
+const val apiKey = BuildConfig.API_KEY
+
 interface ApiService {
-    @GET("movie/now_playing?api_key=2174d146bb9c0eab47529b2e77d6b526")
+    @GET("movie/now_playing?api_key=$apiKey")
     suspend fun getList(): ListMovieResponse
 }

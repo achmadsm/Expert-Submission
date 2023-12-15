@@ -14,5 +14,5 @@ data class MovieResponse(
     val overview: String,
 
     @field:SerializedName("poster_path")
-    val posterPath: String
+    val posterPath: String,
 )

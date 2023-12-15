@@ -5,11 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.core.R
 import com.example.core.databinding.ItemListMovieBinding
 import com.example.core.domain.model.Movie
+import com.example.core.utils.loadImage
 
 class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ListViewHolder>() {
 
@@ -41,11 +40,7 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.ListViewHolder>() {
 
         fun bind(data: Movie) {
             with(binding) {
-                Glide.with(itemView.context)
-                    .load("https://image.tmdb.org/t/p/w500/" + data.posterPath)
-                    .apply(RequestOptions.placeholderOf(R.drawable.ic_loading))
-                    .error(R.drawable.ic_error)
-                    .into(ivItemImage)
+                ivItemImage.loadImage(data.posterPath)
             }
         }
 

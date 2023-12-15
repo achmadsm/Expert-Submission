@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.core.data.Resource
 import com.example.core.ui.MovieAdapter
 import com.example.submission.R
 import com.example.submission.databinding.ActivityMainBinding
@@ -32,19 +33,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         homeViewModel.movie.observe(this) { movie ->
-            if (movie != null) {
-                when (movie) {
-                    is com.example.core.data.Resource.Loading -> showLoading(true)
-                    is com.example.core.data.Resource.Success -> {
+            movie?.let { resource ->
+                when (resource) {
+                    is Resource.Loading -> showLoading(true)
+                    is Resource.Success -> {
                         showLoading(false)
-                        movie.data?.let { movieAdapter.setListMovies(it) }
+                        resource.data?.let { movieAdapter.setListMovies(it) }
                     }
 
-                    is com.example.core.data.Resource.Error -> {
+                    is Resource.Error -> {
                         showLoading(false)
                         binding.viewError.root.visibility = View.VISIBLE
                         binding.viewError.tvError.text =
-                            movie.Message ?: getString(R.string.something_wrong)
+                            resource.message ?: getString(R.string.something_wrong)
                     }
                 }
             }

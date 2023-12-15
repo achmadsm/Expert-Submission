@@ -29,17 +29,18 @@ val databaseModule = module {
 val networkModule = module {
     single {
         val loggingInterceptor = if (BuildConfig.DEBUG) {
-            HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-        } else {
-            HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
-        }
+            HttpLoggingInterceptor.Level.BODY
+        } else
+            HttpLoggingInterceptor.Level.NONE
+
         OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
+            .addInterceptor(HttpLoggingInterceptor().setLevel(loggingInterceptor))
             .build()
     }
     single {
+        val baseUrl = BuildConfig.BASE_URL
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.themoviedb.org/3/")
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .client(get())
             .build()

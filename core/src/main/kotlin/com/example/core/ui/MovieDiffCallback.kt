@@ -5,7 +5,7 @@ import com.example.core.domain.model.Movie
 
 class MovieDiffCallback(
     private val mOldMovieList: List<Movie>,
-    private val mNewMovieList: List<Movie>
+    private val mNewMovieList: List<Movie>,
 ) : DiffUtil.Callback() {
     override fun getOldListSize(): Int {
         return mOldMovieList.size

@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.map
 class MovieRepository(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
-    private val appExecutors: AppExecutors
+    private val appExecutors: AppExecutors,
 ) : IMovieRepository {
     override fun getAllMovie(): Flow<Resource<List<Movie>>> =
         object : NetworkBoundResource<List<Movie>, List<MovieResponse>>() {
@@ -22,7 +22,7 @@ class MovieRepository(
                 return localDataSource.getAllMovie().map { DataMapper.mapEntitiesToDomain(it) }
             }
 
-            override suspend fun createCall(): Flow<ApiResponse<List<MovieResponse>>> =
+            override fun createCall(): Flow<ApiResponse<List<MovieResponse>>> =
                 remoteDataSource.getAllMovie()
 
             override suspend fun saveCallResult(data: List<MovieResponse>) {
@@ -30,7 +30,7 @@ class MovieRepository(
                 localDataSource.insertMovie(movieList)
             }
 
-            override fun shouldFetch(data: List<Movie>?): Boolean = data == null || data.isEmpty()
+            override fun shouldFetch(data: List<Movie>?): Boolean = data.isNullOrEmpty()
         }.asFlow()
 
     override fun getFavoriteMovie(): Flow<List<Movie>> {

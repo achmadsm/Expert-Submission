@@ -20,5 +20,5 @@ data class MovieEntity(
     val posterPath: String,
 
     @ColumnInfo(name = "isFavorite")
-    var isFavorite: Boolean = false
+    var isFavorite: Boolean = false,
 )

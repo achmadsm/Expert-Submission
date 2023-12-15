@@ -1,7 +1,11 @@
 package com.example.core.data
 
 import com.example.core.data.source.remote.network.ApiResponse
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 abstract class NetworkBoundResource<ResultType, RequestType> {
 
@@ -15,9 +19,11 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
                     saveCallResult(apiResponse.data)
                     emitAll(loadFromDB().map { Resource.Success(it) })
                 }
+
                 is ApiResponse.Empty -> {
                     emitAll(loadFromDB().map { Resource.Success(it) })
                 }
+
                 is ApiResponse.Error -> {
                     emit(Resource.Error(apiResponse.errorMessage))
                 }
@@ -31,7 +37,7 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
 
     protected abstract fun shouldFetch(data: ResultType?): Boolean
 
-    protected abstract suspend fun createCall(): Flow<ApiResponse<RequestType>>
+    protected abstract fun createCall(): Flow<ApiResponse<RequestType>>
 
     protected abstract suspend fun saveCallResult(data: RequestType)
 

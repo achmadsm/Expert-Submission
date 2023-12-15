@@ -4,9 +4,8 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.core.domain.model.Movie
+import com.example.core.utils.loadImage
 import com.example.submission.R
 import com.example.submission.databinding.ActivityDetailMovieBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -35,15 +34,11 @@ class DetailMovieActivity : AppCompatActivity() {
 
     private fun showDetailMovie(detailMovie: Movie?) {
         detailMovie?.let {
-            supportActionBar?.title = detailMovie.title
-            binding.content.tvDetailDescription.text = detailMovie.overview
-            Glide.with(this@DetailMovieActivity)
-                .load("https://image.tmdb.org/t/p/w500/" + detailMovie.posterPath)
-                .apply(RequestOptions.placeholderOf(R.drawable.ic_loading))
-                .error(R.drawable.ic_error)
-                .into(binding.ivDetailImage)
+            supportActionBar?.title = it.title
+            binding.content.tvDetailDescription.text = it.overview
+            binding.ivDetailImage.loadImage(it.posterPath)
 
-            var statusFavorite = detailMovie.isFavorite
+            var statusFavorite = it.isFavorite
             setStatusFavorite(statusFavorite)
             binding.fab.setOnClickListener {
                 statusFavorite = !statusFavorite
