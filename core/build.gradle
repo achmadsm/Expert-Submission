@@ -18,12 +18,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 
-        Properties properties = new Properties()
-        properties.load(project.rootProject.file("local.properties").newDataInputStream())
-
-        buildConfigField "String", "BASE_URL", "${properties.getProperty("BASE_URL")}"
-        buildConfigField "String", "IMAGE_URL", "${properties.getProperty("IMAGE_URL")}"
-        buildConfigField "String", "API_KEY", "${properties.getProperty("API_KEY")}"
+        buildConfigField "String", "BASE_URL", "https://api.themoviedb.org/3/"
+        buildConfigField "String", "IMAGE_URL", "https://image.tmdb.org/t/p/w500"
+        buildConfigField "String", "API_KEY", "2174d146bb9c0eab47529b2e77d6b526"
     }
 
     buildTypes {
