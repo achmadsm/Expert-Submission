@@ -1,10 +1,14 @@
 package com.example.submission.home
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.core.data.Resource
@@ -19,6 +23,9 @@ class MainActivity : AppCompatActivity() {
     private val homeViewModel: HomeViewModel by viewModel()
 
     private lateinit var binding: ActivityMainBinding
+
+    private lateinit var broadcastReceiver: BroadcastReceiver
+    private lateinit var tvPowerStatus: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,6 +81,16 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onStart() {
+        super.onStart()
+        registerBroadCastReceiver()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(broadcastReceiver)
+    }
+
     private fun moveToFavoriteActivity() {
         Intent(this, Class.forName("com.achmadsm.favorite.FavoriteActivity")).also {
             startActivity(it)
@@ -83,4 +100,26 @@ class MainActivity : AppCompatActivity() {
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
+
+    private fun registerBroadCastReceiver() {
+        broadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                when (intent.action) {
+                    Intent.ACTION_POWER_CONNECTED -> {
+                        tvPowerStatus.text = getString(R.string.power_connected)
+                    }
+                    Intent.ACTION_POWER_DISCONNECTED -> {
+                        tvPowerStatus.text = getString(R.string.power_disconnected)
+                    }
+                }
+            }
+        }
+        val intentFilter = IntentFilter()
+        intentFilter.apply {
+            addAction(Intent.ACTION_POWER_CONNECTED)
+            addAction(Intent.ACTION_POWER_DISCONNECTED)
+        }
+        registerReceiver(broadcastReceiver, intentFilter)
+    }
+
 }
