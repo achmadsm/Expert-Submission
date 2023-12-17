@@ -108,6 +108,7 @@ class MainActivity : AppCompatActivity() {
                     Intent.ACTION_POWER_CONNECTED -> {
                         tvPowerStatus.text = getString(R.string.power_connected)
                     }
+
                     Intent.ACTION_POWER_DISCONNECTED -> {
                         tvPowerStatus.text = getString(R.string.power_disconnected)
                     }
