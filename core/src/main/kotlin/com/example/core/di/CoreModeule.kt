@@ -9,6 +9,8 @@ import com.example.core.data.source.remote.RemoteDataSource
 import com.example.core.data.source.remote.network.ApiService
 import com.example.core.domain.repository.IMovieRepository
 import com.example.core.utils.AppExecutors
+import net.sqlcipher.database.SQLiteDatabase
+import net.sqlcipher.database.SupportFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -19,10 +21,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 val databaseModule = module {
     factory { get<MovieDatabase>().MovieDao() }
     single {
+        val passphrase: ByteArray = SQLiteDatabase.getBytes("movie".toCharArray())
+        val factory = SupportFactory(passphrase)
         Room.databaseBuilder(
             androidContext(),
             MovieDatabase::class.java, "Movie.db"
-        ).fallbackToDestructiveMigration().build()
+        ).fallbackToDestructiveMigration()
+            .openHelperFactory(factory)
+            .build()
     }
 }
 
